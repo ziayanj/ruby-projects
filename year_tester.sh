@@ -1,5 +1,3 @@
-ruby weatherman.rb -e 2004 ./Murree_weather/
-
 # Test all Murree years
 for i in $(seq 2004 2016)
  do ruby weatherman.rb -e $i ./Murree_weather/
