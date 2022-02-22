@@ -82,8 +82,11 @@ if __FILE__ == $PROGRAM_NAME
   elsif ARGV[0] == '-c'
     path = ARGV[2].dup
 
-    max_temp = -1
-    min_temp = 1000
+    # Printing month and year
+    year = ARGV[1].split('/')[0]
+    month = ARGV[1].split('/')[1]
+    month_name = Date::MONTHNAMES[month.to_i]
+    puts "#{month_name} #{year}"
 
     CSV.foreach(path, headers: true, skip_blanks: true, skip_lines: '<!--') do |row|
       max_temp = row['Max TemperatureC'].to_i
@@ -92,10 +95,31 @@ if __FILE__ == $PROGRAM_NAME
       date = Date.parse(day).strftime('%d')
 
       # Because there's no way to output negative counts.
-      min_temp = 0 if min_temp < 0
+      min_temp = 0 if min_temp.negative?
 
       puts "#{date} " << ('+' * max_temp).red << " #{max_temp}C"
       puts "#{date} " << ('+' * min_temp).blue << " #{min_temp}C"
+    end
+
+  elsif ARGV[0] == '-cc'
+    path = ARGV[2].dup
+
+    # Printing month and year
+    year = ARGV[1].split('/')[0]
+    month = ARGV[1].split('/')[1]
+    month_name = Date::MONTHNAMES[month.to_i]
+    puts "#{month_name} #{year}"
+
+    CSV.foreach(path, headers: true, skip_blanks: true, skip_lines: '<!--') do |row|
+      max_temp = row['Max TemperatureC'].to_i
+      min_temp = row['Min TemperatureC'].to_i
+      day = row['PKT'] || row['PKST'] || row['GST']
+      date = Date.parse(day).strftime('%d')
+
+      # Because there's no way to output negative counts.
+      min_temp = 0 if min_temp.negative?
+
+      puts "#{date} " << ('+' * max_temp).red << ('+' * min_temp).blue << " #{max_temp}C - #{min_temp}C"
     end
   end
 end
