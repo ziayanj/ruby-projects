@@ -5,7 +5,7 @@ require_relative 'bar_chart_handler'
 if __FILE__ == $PROGRAM_NAME
   # Check if the program has been called correctly
   if !ARGV[1] || !ARGV[2]
-    abort("Usage: ruby #{$PROGRAM_NAME} {flag} {path}")
+    abort("Usage: ruby #{$PROGRAM_NAME} {flag} {year[/month]} {path}")
   end
 
   path = ARGV[2].dup
@@ -21,6 +21,6 @@ if __FILE__ == $PROGRAM_NAME
   when '-cc'
     bar_chart_handler(path, 'single')
   else
-    'Please use one of the following flags: -e, -a, -c, -cc'
+    puts 'Please use one of the following flags: -e, -a, -c, -cc'
   end
 end
